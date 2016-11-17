@@ -131,11 +131,6 @@
 (global-set-key (kbd "C-c m n") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
 
-;; MATLAB
-(require 'matlab)
-(setq matlab-indent-function t)
-(setq matlab-shell-command "/home/eugen/Programme/MATLAB/R2013b/bin/matlab")
-
 ;;; C-MODE SPECIFIC SETTINGS
 
 ;; RTAGS
