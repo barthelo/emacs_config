@@ -131,47 +131,20 @@
 (global-set-key (kbd "C-c m n") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-c m p") 'mc/mark-previous-like-this)
 
+;; MATLAB
+(require 'matlab)
+(setq matlab-indent-function t)
+(setq matlab-shell-command "/home/eugen/Programme/MATLAB/R2013b/bin/matlab")
+
 ;;; C-MODE SPECIFIC SETTINGS
 
-;; RTAGS
-;; (require 'rtags)
-;; (require 'rtags-ac)
-;; (add-hook 'c-mode-common-hook 'rtags-start-process-unless-running)
-;; (setq rtags-autostart-diagnostics t)
-;; (rtags-diagnostics)
-;; (setq rtags-completions-enabled t)
-
-;; AUTOCOMPLETE
-(require 'auto-complete)
-(require 'auto-complete-config)
-(require 'auto-complete-clang)
-(require 'auto-complete-c-headers)
-(global-auto-complete-mode)
-(ac-config-default)
-(setq ac-ignore-case t)
-(setq ac-dwin t)
-
-(setq ac-clang-flags
-      (mapcar
-       (lambda (item)
-         (concat "-I" item))
-       (split-string "/usr/include /usr/local/include /usr/lib/clang/3.8.0/include /opt/ti/mspgcc/msp430-elf/include")))
-
-;;auto-complete backends
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (add-to-list 'ac-sources 'ac-source-yasnippet)
-            (add-to-list 'ac-sources 'ac-source-c-headers)
-            (add-to-list 'ac-sources 'ac-source-clang)))
-
-
 ;; COMPANY
-;; (require 'company)
-;; (add-hook 'after-init-hook 'global-company-mode)
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
 ;; (setq company-backends (delete 'company-semantic company-backends))
-;; (setq company-idle-delay 0.1)
-;; (setq company-show-numbers t)
-;; (setq company-minimum-prefix-length 2)
+(setq company-idle-delay 0.1)
+(setq company-show-numbers t)
+(setq company-minimum-prefix-length 2)
 ;; (setq company-dabbrev-code-ignore-case t)
 ;; (setq company-clang-arguments
 ;;       (mapcar
@@ -194,17 +167,62 @@
 ;;                  semanticdb-find-default-throttle
 ;;                  '(file local unloaded recursive))
 
-;; IRONY
-;; (require 'irony)
-;; (add-hook 'c-mode-hook 'irony-mode)
-;; (add-hook 'c++-mode-hook 'irony-mode)
-
-;; XCSCOPE
-(add-hook 'c-mode-hook 'cscope-minor-mode)
-
 ;; FLYCHECK
 (require 'flycheck)
 (add-hook 'c-mode-common-hook 'flycheck-mode)
+
+;; IRONY
+(require 'irony)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'c++-mode-hook 'irony-mode)
+(setq company-irony-ignore-case t)
+
+;; replace the `completion-at-point' and `complete-symbol' bindings in
+;; irony-mode's buffers by irony-mode's function
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
+;; (optional) adds CC special commands to `company-begin-commands' in order to
+;; trigger completion at interesting places, such as after scope operator
+;;     std::|
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+;; tab settings
+;; (defun irony--check-expansion ()
+;;   (save-excursion
+;;     (if (looking-at "\\_>") t
+;;       (backward-char 1)
+;;       (if (looking-at "\\.") t
+;;         (backward-char 1)
+;;         (if (looking-at "->") t nil)))))
+;; (defun irony--indent-or-complete ()
+;;   "Indent or Complete"
+;;   (interactive)
+;;   (cond ((and (not (use-region-p))
+;;               (irony--check-expansion))
+;;          (message "complete")
+;;          (company-complete-common))
+;;         (t
+;;          (message "indent")
+;;          (call-interactively 'c-indent-line-or-region))))
+;; (defun irony-mode-keys ()
+;;   "Modify keymaps used by `irony-mode'."
+;;   (local-set-key (kbd "TAB") 'irony--indent-or-complete)
+;;   (local-set-key [tab] 'irony--indent-or-complete))
+;; (add-hook 'c-mode-common-hook 'irony-mode-keys)
+
+;; flycheck setup
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+;; XCSCOPE
+(add-hook 'c-mode-hook 'cscope-minor-mode)
 
 (defun my-flycheck-setup ()
   (interactive)
@@ -270,9 +288,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" default)))
  '(package-selected-packages
    (quote
-    (company yasnippet yafolding undo-tree speed-type smartparens smart-mode-line-powerline-theme rtags realgud rainbow-delimiters pos-tip multiple-cursors morlock monokai-theme matlab-mode magit list-utils linum-relative levenshtein highlight-parentheses highlight-numbers highlight helm-projectile helm-cscope goto-chg fuzzy flycheck expand-region evil-numbers ecb diredful dired-open color-theme cmake-font-lock avy auto-complete-clang auto-complete-c-headers aggressive-indent ac-octave))))
+    (company-irony flycheck-irony irony-eldoc irony elpy company yasnippet yafolding undo-tree speed-type smartparens smart-mode-line-powerline-theme realgud pos-tip multiple-cursors morlock monokai-theme matlab-mode magit list-utils linum-relative levenshtein highlight-parentheses highlight-numbers highlight helm-projectile helm-cscope goto-chg fuzzy flycheck expand-region evil-numbers ecb diredful dired-open color-theme cmake-font-lock avy auto-complete-clang auto-complete-c-headers aggressive-indent ac-octave))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
