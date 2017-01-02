@@ -139,6 +139,12 @@
          ("M-l" . fix-word-downcase)
          ("M-c" . fix-word-capitalize)))
 
+;; GOLDEN RATION WINDOW RESIZE
+(use-package golden-ratio
+  :ensure t
+  :diminish golden-ratio-mode
+  :config (golden-ratio-mode 1))
+
 ;;; PROGRAM SPECIFIC SETTINGS
 ;; PROJECTILE
 (use-package projectile
