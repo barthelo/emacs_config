@@ -249,6 +249,21 @@
 (use-package xcscope
   :config (add-hook 'c-mode-hook 'cscope-minor-mode))
 
+;; HELM CSCOPE
+(use-package helm-cscope
+  :config
+  (progn (add-hook 'c-mode-hook 'helm-cscope-mode)
+         (add-hook 'c++-mode-hook 'helm-cscope-mode))
+  :bind (("C-c s g" . helm-cscope-find-global-definition)
+         ("C-c s t" . helm-cscope-find-this-text-string)
+         ("C-c s e" . helm-cscope-find-egrep-pattern)
+         ("C-c s s" . helm-cscope-find-this-symbol)
+         ("C-c s =" . helm-cscope-find-assignments-to-this-symbol)
+         ("C-c s c" . helm-cscope-find-calling-this-funtcion)
+         ("C-c s f" . helm-cscope-find-this-file)
+         ("C-c s i" . helm-cscope-find-files-including-file)
+         ("C-c s d" . helm-cscope-find-called-function)))
+
 ;;; MY FUNCITONS
 (defun my-current-copy-line ()
   "Copy current line to kill-ring keeping point's position"
