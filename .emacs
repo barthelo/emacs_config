@@ -93,7 +93,9 @@
          :map helm-map
          ("<tab>" . helm-execute-persistent-action)
          ("C-i" . helm-execute-persistent-action)
-         ("C-y" . helm-select-action)))
+         ("C-y" . helm-select-action)
+         :map helm-find-files-map
+         ("C-<backspace>" . helm-find-files-up-one-level)))
 
 ;; FLYSPELL
 (use-package flyspell
