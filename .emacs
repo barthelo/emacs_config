@@ -78,6 +78,12 @@
 ;; NO STARTUP SCRREN
 (setq inhibit-startup-message t)
 
+;; AUTO REVERT MODE
+(global-auto-revert-mode 1)
+
+;; AUTO REFRESH DIRED
+(add-hook 'dired-mode-hook 'auto-revert-mode)
+
 ;; HELM
 (use-package helm
   :diminish helm-mode
