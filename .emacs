@@ -53,8 +53,8 @@
 
 ;; TABS WHITESPACES INDENTATION
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq-default c-basic-offset 4)
+(setq-default tab-width 3)
+(setq-default c-basic-offset 3)
 (setq-default c-default-style "bsd")
 (setq tab-always-indent 'complete)
 
@@ -121,14 +121,25 @@
 ;; SETTING FOR AVY
 (use-package avy
   :bind (("M-s" . avy-goto-char-2)
+<<<<<<< HEAD
+         ("M-g M-g" . avy-goto-line)))
+
+;; THEME SETTINGS
+(use-package monokai-theme
+  :config (progn
+            (set-face-attribute 'region nil :background monokai-green :foreground monokai-gray)
+            (load-theme 'monokai t)))
+=======
          ("M-g M-g" . avy-goto-liney)))
 
 ;; THEME SETTINGS
 (use-package monokai-theme
   :config (load-theme 'monokai t))
+>>>>>>> c722307f2f0e50bd6d471370f70d61700954f5c6
 
 ;; DIRED
 (setq dired-dwim-target t)
+(setq dired-listing-switches "-alh")
 
 ;; SMARTPARENS
 (use-package smartparens-config
@@ -145,11 +156,14 @@
          ("M-l" . fix-word-downcase)
          ("M-c" . fix-word-capitalize)))
 
+<<<<<<< HEAD
+=======
 ;; GOLDEN RATION WINDOW RESIZE
 (use-package golden-ratio
   :ensure t
   :diminish golden-ratio-mode
   :config (golden-ratio-mode 1))
+>>>>>>> c722307f2f0e50bd6d471370f70d61700954f5c6
 
 ;;; PROGRAM SPECIFIC SETTINGS
 ;; PROJECTILE
@@ -159,10 +173,22 @@
   :ensure helm
   :config
   (progn (projectile-global-mode)
+<<<<<<< HEAD
+         (helm-projectile-on)
+         (setq projectile-project-compilation-cmd "make -C ./code/build all")
+         (setq projectile-project-run-cmd "make -C ./code/build flash")
+         (setq compilation-scroll-output t)))
+
+;; (progn (projectile-global-mode)
+;;        (setq projectile-completion-system 'helm)
+;;        (helm-projectile-on)
+;;        (setq projectile-switch-project-action 'helm-projectile))
+=======
          (setq projectile-completion-system 'helm)
          (helm-projectile-on)
          (setq projectile-switch-project-action 'helm-projectile)))
 (require 'projectile)
+>>>>>>> c722307f2f0e50bd6d471370f70d61700954f5c6
 
 ;; MAGIT
 (use-package magit
@@ -258,6 +284,7 @@
          ;; flycheck setup
          (eval-after-load 'flycheck
            '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))))
+<<<<<<< HEAD
 
 ;; XCSCOPE
 (use-package xcscope
@@ -277,6 +304,34 @@
          ("C-c s f" . helm-cscope-find-this-file)
          ("C-c s i" . helm-cscope-find-files-including-file)
          ("C-c s d" . helm-cscope-find-called-function)))
+
+;;; MATLAB Mode
+(use-package matlab-mode
+  :init (setq matlab-shell-command
+              "/home/eugen/Programme/MATLAB/R2013b/bin/matlab")
+  :config (matlab-cedet-setup))
+
+=======
+
+;; XCSCOPE
+(use-package xcscope
+  :config (add-hook 'c-mode-hook 'cscope-minor-mode))
+
+;; HELM CSCOPE
+(use-package helm-cscope
+  :config
+  (progn (add-hook 'c-mode-hook 'helm-cscope-mode)
+         (add-hook 'c++-mode-hook 'helm-cscope-mode))
+  :bind (("C-c s g" . helm-cscope-find-global-definition)
+         ("C-c s t" . helm-cscope-find-this-text-string)
+         ("C-c s e" . helm-cscope-find-egrep-pattern)
+         ("C-c s s" . helm-cscope-find-this-symbol)
+         ("C-c s =" . helm-cscope-find-assignments-to-this-symbol)
+         ("C-c s c" . helm-cscope-find-calling-this-funtcion)
+         ("C-c s f" . helm-cscope-find-this-file)
+         ("C-c s i" . helm-cscope-find-files-including-file)
+         ("C-c s d" . helm-cscope-find-called-function)))
+>>>>>>> c722307f2f0e50bd6d471370f70d61700954f5c6
 
 ;;; MY FUNCITONS
 (defun my-current-copy-line ()
@@ -305,3 +360,65 @@
             (= (point) my-current-point-position))
     (move-beginning-of-line nil)))
 (global-set-key (kbd "C-a") 'my-beginning-of-line)
+<<<<<<< HEAD
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
+ '(compilation-message-face (quote default))
+ '(custom-safe-themes
+   (quote
+    ("c7a9a68bd07e38620a5508fef62ec079d274475c8f92d75ed0c33c45fbe306bc" default)))
+ '(fci-rule-color "#3C3D37")
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#3C3D37" . 0)
+     ("#679A01" . 20)
+     ("#4BBEAE" . 30)
+     ("#1DB4D0" . 50)
+     ("#9A8F21" . 60)
+     ("#A75B00" . 70)
+     ("#F309DF" . 85)
+     ("#3C3D37" . 100))))
+ '(magit-diff-use-overlays nil)
+ '(package-selected-packages
+   (quote
+    (yasnippet yafolding use-package undo-tree smartparens smart-mode-line-powerline-theme realgud pos-tip multiple-cursors morlock monokai-theme magit list-utils linum-relative levenshtein irony-eldoc highlight-parentheses highlight-operators highlight-numbers highlight helm-projectile helm-cscope goto-chg fuzzy flycheck-irony fix-word expand-region evil-numbers ecb disaster diredful dired-open darkokai-theme company-irony cmake-font-lock avy anzu aggressive-indent)))
+ '(pos-tip-background-color "#A6E22E")
+ '(pos-tip-foreground-color "#272822")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+=======
+>>>>>>> c722307f2f0e50bd6d471370f70d61700954f5c6
