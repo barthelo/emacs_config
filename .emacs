@@ -63,6 +63,8 @@
 
 ;; WHITESPACE MODE
 (global-whitespace-mode t)
+(setq whitespace-line-column 80)
+(setq whitespace-style (quote (face trailing tabs spaces newline empty indentation space-after-tab space-before-tab space-mark tab-mark newline-mark)))
 (diminish 'global-whitespace-mode)
 
 ;; DISPLAY LINE NUMBERS
