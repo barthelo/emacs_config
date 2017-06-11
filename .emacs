@@ -118,18 +118,20 @@
 
 ;; EXPAND REGION
 (use-package expand-region
+  :diminish expand-region
   :bind ("C-=" . er/expand-region))
 
 ;; SETTING FOR AVY
 (use-package avy
+  :diminish avy
   :bind (("M-s" . avy-goto-char-2)
          ("M-g M-g" . avy-goto-line)))
 
 ;; THEME SETTINGS
-(use-package monokai-theme
-  :config (progn
-            (set-face-attribute 'region nil :background monokai-green :foreground monokai-gray)
-            (load-theme 'monokai t)))
+(use-package monokai
+  :init (progn
+          (load-theme 'monokai t)
+          (set-face-attribute 'region nil :background monokai-green :foreground monokai-gray)))
 
 ;; DIRED
 (setq dired-dwim-target t)
@@ -140,7 +142,6 @@
   :diminish smartparens-mode
   :config (smartparens-global-mode))
 
-;; SEXP HANDLING
 (global-set-key (kbd "C-M-<backspace>") 'backward-kill-sexp)
 (global-set-key (kbd "C-M-d") 'kill-sexp)
 
